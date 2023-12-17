@@ -4,17 +4,42 @@ import random
 def clear_window():
         os.system('cls' if os.name=='nt' else 'clear')
 
-class Tic_tac_toe():
+class TicTacToe():
     def __init__(self):
         self.playing_area = [1,2,3,
                             4,5,6,
                             7,8,9]
+        self.end_game = False
+        self._choice(input("Выберите игрока, введите х, о или оставьте поле пустым для случайного выбора."))
+
+
+    def _choice(self, letter):
+        if letter == 'x'or letter == 'X' or letter == 'х' or letter == 'Х':
+            self._choice_human_x()
+        elif letter == 'o'or letter == 'O' or letter == 'о' or letter == 'О' or letter == '0':
+            self._choice_comp_x()
+        else:
+            if random.randint(0, 1) == 1:
+                self._choice_human_x()
+            else:
+                self._choice_comp_x()
+    
+    def _choice_comp_x(self):
+        self.next_move = self.comp_move
+        self.human_symbol = 'o'
+        self.comp_symbol = 'x'
+    
+    def _choice_human_x(self):
+        self.next_move = self.human_move
         self.human_symbol = 'x'
         self.comp_symbol = 'o'
-    
+
     def human_move(self):
         while True:
-            coord = int(input("\nВаш ход, введите значение от 0 до 8: "))
+            coord = input("\nВаш ход, введите значение от 0 до 8: ")
+            if not coord.isdigit():
+                print('Вы ввели недопустимое значение')
+            coord = int(coord)
             if coord not in [0,1,2,3,4,5,6,7,8]:
                 print('Вы ввели недопустимое значение')
             elif self.playing_area[coord] in ['o', 'x']:
@@ -33,24 +58,6 @@ class Tic_tac_toe():
                 self.next_move = self.human_move
                 break
 
-    def choice(self, letter):
-        if letter == 'x'or letter == 'X' or letter == 'х' or letter == 'Х':
-            self.next_move = self.human_move
-            self.human_symbol = 'x'
-            self.comp_symbol = 'o'
-        elif letter == 'o'or letter == 'O' or letter == 'о' or letter == 'О' or letter == '0':
-            self.next_move = self.comp_move
-            self.human_symbol = 'o'
-            self.comp_symbol = 'x'
-        else:
-            if random.randint(0, 1) == 1:
-                self.next_move = self.human_move
-                self.human_symbol = 'x'
-                self.comp_symbol = 'o'
-            else:
-                self.next_move = self.comp_move
-                self.human_symbol = 'o'
-                self.comp_symbol = 'x'
 
     def win_check(self):
         vin_arr = [
@@ -64,9 +71,11 @@ class Tic_tac_toe():
             [2,4,6]
         ]
         for element in vin_arr:
-            if self.playing_area[0] == self.playing_area[1] and self.playing_area[1] == self.playing_area[2]:
-                return self.playing_area[0]
-        return False
+            if self.playing_area[0] == self.playing_area[1]  == self.playing_area[2]:
+                self.end_game = True
+                print(f'Победил игрок {self.playing_area[0]}')
+                break
+
 
     def print_area(self):
         for i, element in enumerate(self.playing_area):
@@ -85,18 +94,13 @@ class Tic_tac_toe():
         print('')
 
 while True:
-    tic_tac_toe = Tic_tac_toe()
-
-    input("Для начала нажмите Enter")
+    if input("Для начала нажмите Enter или введите 0 для выхода") == '0':
+        break
+    tic_tac_toe = TicTacToe()
     clear_window()
 
-    tic_tac_toe.choice(input("Выберите игрока, введите х, о или оставьте поле пустым для случайного выбора."))
-    clear_window()
-
-    while True:
+    while not tic_tac_toe.end_game:
         tic_tac_toe.next_move()
         clear_window()
         tic_tac_toe.print_area()
-        if tic_tac_toe.win_check():
-            print(f'Победил игрок {tic_tac_toe.win_check()}')
-            break
+        tic_tac_toe.win_check()
