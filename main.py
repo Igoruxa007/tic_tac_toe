@@ -37,6 +37,7 @@ class TicTacToe():
     def human_move(self):
         while True:
             coord = input("\nВаш ход, введите значение от 0 до 8: ")
+            
             if not coord.isdigit():
                 print('Вы ввели недопустимое значение')
             coord = int(coord)
@@ -61,7 +62,7 @@ class TicTacToe():
 
     def win_check(self):
         vin_arr = [
-            [0,1,2],
+            [0,1,2], 
             [3,4,5],
             [6,7,8],
             [0,3,6],
@@ -71,10 +72,13 @@ class TicTacToe():
             [2,4,6]
         ]
         for element in vin_arr:
-            if self.playing_area[0] == self.playing_area[1]  == self.playing_area[2]:
+            if self.playing_area[element[0]] == self.playing_area[element[1]]  == self.playing_area[element[2]]:
                 self.end_game = True
                 print(f'Победил игрок {self.playing_area[0]}')
                 break
+        if sum(i for i in self.playing_area if isinstance(i, int)) <= 0:
+            self.end_game = True
+            print('Ничья')
 
 
     def print_area(self):
@@ -98,6 +102,7 @@ while True:
         break
     tic_tac_toe = TicTacToe()
     clear_window()
+    tic_tac_toe.print_area()
 
     while not tic_tac_toe.end_game:
         tic_tac_toe.next_move()
