@@ -8,7 +8,6 @@ class TicTacToe():
         self.end_game = False
         self._choice(input("Выберите игрока, введите х, о или оставьте поле пустым для случайного выбора."))
 
-
     def _choice(self, letter: str | None):
         if letter == 'x'or letter == 'X' or letter == 'х' or letter == 'Х':
             self._choice_human_x()
