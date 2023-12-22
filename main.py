@@ -1,6 +1,6 @@
 import os
 
-from tic_tac_toe import TicTacToe
+from function.tic_tac_toe import TicTacToe
 
 def clear_window():
         os.system('cls' if os.name=='nt' else 'clear')
