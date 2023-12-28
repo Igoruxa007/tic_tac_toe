@@ -2,8 +2,10 @@ import os
 
 from function.tic_tac_toe import TicTacToe
 
+
 def clear_window():
-        os.system('cls' if os.name=='nt' else 'clear')
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 
 while True:
     if input("Для начала нажмите Enter или введите 0 для выхода") == '0':
